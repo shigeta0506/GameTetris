@@ -5,10 +5,10 @@ using UnityEngine;
 public class Mino : MonoBehaviour
 {
     public float previousTime;
-    // minoの落ちる時間
+    //落ちる時間
     public float fallTime = 1f;
 
-    // mino回転
+    //回転
     public Vector3 rotationPoint;
 
     void Update()
@@ -18,17 +18,17 @@ public class Mino : MonoBehaviour
 
     private void MinoMovememt()
     {
-        // 左矢印キーで左に動く
+        //左に動く
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             transform.position += new Vector3(-1, 0, 0);
         }
-        // 右矢印キーで右に動く
+        //右に動く
         else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             transform.position += new Vector3(1, 0, 0);
         }
-        // 自動で下に移動させつつ、下矢印キーでも移動する
+        //自動で下に移動・下矢印キーでも移動する
         else if (Input.GetKeyDown(KeyCode.DownArrow) || Time.time - previousTime >= fallTime)
         {
             transform.position += new Vector3(0, -1, 0);
@@ -36,12 +36,12 @@ public class Mino : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.X))
         {
-            // minoをXキーを押して左回転させる
+            //Xキーを押して左回転させる
             transform.RotateAround(transform.TransformPoint(rotationPoint), new Vector3(0, 0, 1), 90);
         }
         else if (Input.GetKeyDown(KeyCode.Z))
         {
-            // minoをZキーを押して右回転させる
+            //Zキーを押して右回転させる
             transform.RotateAround(transform.TransformPoint(rotationPoint), new Vector3(0, 0, 1), -90);
         }
     }
