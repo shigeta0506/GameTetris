@@ -36,12 +36,12 @@ public class Mino : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.X))
         {
-            //Xキーを押して左回転させる
+            //Xキーで左回転させる
             transform.RotateAround(transform.TransformPoint(rotationPoint), new Vector3(0, 0, 1), 90);
         }
         else if (Input.GetKeyDown(KeyCode.Z))
         {
-            //Zキーを押して右回転させる
+            //Zキーで右回転させる
             transform.RotateAround(transform.TransformPoint(rotationPoint), new Vector3(0, 0, 1), -90);
         }
     }
