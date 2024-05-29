@@ -63,7 +63,7 @@ public class Mino : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.X))
         {
-            // mino‚ğã–îˆóƒL[‚ğ‰Ÿ‚µ‚Ä‰ñ“]‚³‚¹‚é
+            // mino‚ğX‚ğ‰Ÿ‚µ‚Ä‰ñ“]‚³‚¹‚é
             transform.RotateAround(transform.TransformPoint(rotationPoint), new Vector3(0, 0, 1), -90);
 
             if (!ValidMovement())
@@ -74,7 +74,7 @@ public class Mino : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Z))
         {
-            // mino‚ğã–îˆóƒL[‚ğ‰Ÿ‚µ‚Ä‰ñ“]‚³‚¹‚é
+            // mino‚ğZ‚ğ‰Ÿ‚µ‚Ä‰ñ“]‚³‚¹‚é
             transform.RotateAround(transform.TransformPoint(rotationPoint), new Vector3(0, 0, 1),90);
 
             if (!ValidMovement())
