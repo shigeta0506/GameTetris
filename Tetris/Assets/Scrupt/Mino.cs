@@ -5,13 +5,13 @@ using UnityEngine;
 public class Mino : MonoBehaviour
 {
     public float previousTime;
-    // minoの落ちる時間
+    //minoの落ちる時間
     public float fallTime = 1f;
 
     private static int width = 10;
     private static int height = 20;
 
-    // mino回転
+    //mino回転
     public Vector3 rotationPoint;
 
     private static Transform[,] grid = new Transform[width, height];
@@ -23,7 +23,7 @@ public class Mino : MonoBehaviour
 
     private void MinoMovememt()
     {
-        // 左矢印キーで左に動く
+        //左に動く
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             transform.position += new Vector3(-1, 0, 0);
@@ -33,7 +33,7 @@ public class Mino : MonoBehaviour
                 transform.position -= new Vector3(-1, 0, 0);
             }
         }
-        // 右矢印キーで右に動く
+        //右に動く
         else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             transform.position += new Vector3(1, 0, 0);
@@ -43,7 +43,7 @@ public class Mino : MonoBehaviour
                 transform.position -= new Vector3(1, 0, 0);
             }
         }
-        // 自動で下に移動させつつ、下矢印キーでも移動する
+        //下に移動させる、下矢印キーでも移動する
         else if (Input.GetKeyDown(KeyCode.DownArrow) || Time.time - previousTime >= fallTime)
         {
             transform.position += new Vector3(0, -1, 0);
@@ -63,7 +63,7 @@ public class Mino : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.X))
         {
-            // minoをXを押して回転させる
+            //Xを押して右回転させる
             transform.RotateAround(transform.TransformPoint(rotationPoint), new Vector3(0, 0, 1), -90);
 
             if (!ValidMovement())
@@ -74,7 +74,7 @@ public class Mino : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Z))
         {
-            // minoをZを押して回転させる
+            //Zを押して左回転させる
             transform.RotateAround(transform.TransformPoint(rotationPoint), new Vector3(0, 0, 1),90);
 
             if (!ValidMovement())
@@ -155,7 +155,7 @@ public class Mino : MonoBehaviour
             int roundX = Mathf.RoundToInt(children.transform.position.x);
             int roundY = Mathf.RoundToInt(children.transform.position.y);
 
-            // minoがステージよりはみ出さないように制御
+            //ステージよりはみ出さないように制御
             if (roundX < 0 || roundX >= width || roundY < 0 || roundY >= height)
             {
                 return false;
