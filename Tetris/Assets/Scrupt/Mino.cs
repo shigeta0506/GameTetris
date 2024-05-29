@@ -83,6 +83,8 @@ public class Mino : MonoBehaviour
             }
         }
     }
+
+    //ƒ‰ƒCƒ“‚ª‚ ‚é‚©
     public void CheckLines()
     {
         for (int i = height - 1; i >= 0; i--)
@@ -95,6 +97,7 @@ public class Mino : MonoBehaviour
         }
     }
 
+    //—ñ‚ª‚»‚ë‚Á‚Ä‚¢‚é‚©
     bool HasLine(int i)
     {
         for (int j = 0; j < width; j++)
@@ -105,6 +108,7 @@ public class Mino : MonoBehaviour
         return true;
     }
 
+    //ƒ‰ƒCƒ“‚ðÁ‚·
     void DeleteLine(int i)
     {
         for (int j = 0; j < width; j++)
@@ -115,6 +119,7 @@ public class Mino : MonoBehaviour
 
     }
 
+    //—ñ‚ð‰º‚°‚é
     public void RowDown(int i)
     {
         for (int y = i; y < height; y++)
