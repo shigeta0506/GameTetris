@@ -13,12 +13,12 @@ public class MoveOnlyMino : MonoBehaviour
     // Mino回転
     public Vector3 rotationPoint;
 
-    public static Transform[,] grid = new Transform[width, height];  //共有のグリッド
+    public static Transform[,] grid = new Transform[width, height];  // 共有のグリッド
 
     private int keep = 0;
 
 
-    enum Direction
+    public enum Direction
     {
         left,
         right,
@@ -26,7 +26,7 @@ public class MoveOnlyMino : MonoBehaviour
         down
     }
 
-    private Direction direction;
+    public Direction direction;
 
     void Start()
     {
@@ -35,7 +35,12 @@ public class MoveOnlyMino : MonoBehaviour
 
     void Update()
     {
-        MinoMovememt();
+        // ゲームオーバーでない場合のみ動かす
+        if (!SpawnMino.isGameOver&&!SpawnMino.isClear)
+        {
+            MinoMovememt();
+            //CheckGameOver();  // ゲームオーバー状態をチェック
+        }
     }
 
     private void MinoMovememt()
@@ -47,6 +52,7 @@ public class MoveOnlyMino : MonoBehaviour
             // 現在位置を grid から削除
             RemoveFromGrid();
 
+
             // 左に動く場合
             if (direction == Direction.left)
             {
@@ -54,7 +60,7 @@ public class MoveOnlyMino : MonoBehaviour
 
                 if (!ValidMovement())
                 {
-                    transform.position -= new Vector3(-1, 0, 0);
+                    transform.position += new Vector3(1, 0, 0);
                 }
                 previousTime = Time.time;
             }
@@ -66,7 +72,7 @@ public class MoveOnlyMino : MonoBehaviour
 
                 if (!ValidMovement())
                 {
-                    transform.position -= new Vector3(1, 0, 0);
+                    transform.position += new Vector3(-1, 0, 0);
                 }
                 previousTime = Time.time;
             }
@@ -90,8 +96,8 @@ public class MoveOnlyMino : MonoBehaviour
                     direction = Direction.right;
                 }
             }
-            //下に動く場合
-            else if(direction == Direction.down)
+            // 下に動く場合
+            else if (direction == Direction.down)
             {
                 transform.position += new Vector3(0, -1, 0);
                 if (!ValidMovement())
@@ -107,10 +113,11 @@ public class MoveOnlyMino : MonoBehaviour
                 {
                     direction = Direction.right;
                 }
-
             }
         }
     }
+
+    // ミノが特定の位置に到達したか確認
 
     // 過去の位置を grid から削除
     void RemoveFromGrid()
@@ -160,12 +167,10 @@ public class MoveOnlyMino : MonoBehaviour
             if (direction == Direction.left)
             {
                 keep = 0;
-                
             }
             else if (direction == Direction.right)
             {
                 keep = 1;
-                
             }
 
             // **範囲外アクセス防止**: 配列参照前にチェック
@@ -175,7 +180,6 @@ public class MoveOnlyMino : MonoBehaviour
                 if (roundY >= 2 && grid[roundX, roundY - 2] == null)
                 {
                     changedirection();
-
                     return false;
                 }
                 else
@@ -186,7 +190,14 @@ public class MoveOnlyMino : MonoBehaviour
             // 進行先に Mino があり、かつ上方向が空いている場合
             else if (roundY + 1 < height && roundX >= 0 && roundX < width && grid[roundX, roundY] != null && grid[roundX, roundY + 1] == null)
             {
-                direction = Direction.up;
+                if (direction == Direction.left && grid[roundX + 1, roundY + 1] == null)
+                {
+                    direction = Direction.up;
+                }
+                else if (direction == Direction.right && grid[roundX - 1, roundY + 1] == null)
+                {
+                    direction = Direction.up;
+                }
                 return false;
             }
             // 進行先に Mino があり、上方向も塞がれている場合
@@ -196,8 +207,10 @@ public class MoveOnlyMino : MonoBehaviour
                 return false;
             }
         }
+        
         return true;
     }
+
 
     void changedirection()
     {
@@ -210,7 +223,4 @@ public class MoveOnlyMino : MonoBehaviour
             direction = Direction.left;
         }
     }
-
-
-
 }
