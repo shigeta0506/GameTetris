@@ -17,6 +17,8 @@ public class MoveOnlyMino : MonoBehaviour
 
     private int keep = 0;
 
+    public static bool isClear = false;
+
 
     public enum Direction
     {
@@ -36,17 +38,18 @@ public class MoveOnlyMino : MonoBehaviour
     void Update()
     {
         // ゲームオーバーでない場合のみ動かす
-        if (!SpawnMino.isGameOver&&!SpawnMino.isClear)
+        if (!SpawnMino.isGameOver&&!SpawnMino.isClear || !isClear)
         {
             MinoMovememt();
             //CheckGameOver();  // ゲームオーバー状態をチェック
         }
+        AddToGrid();
     }
 
     private void MinoMovememt()
     {
         // 新しい位置を grid に追加
-        AddToGrid();
+       
         if (Time.time - previousTime >= fallTime)
         {
             // 現在位置を grid から削除
@@ -146,7 +149,13 @@ public class MoveOnlyMino : MonoBehaviour
             {
                 grid[roundX, roundY] = children;
             }
+
+            if(roundY >= 9)
+            {
+                isClear = true;
+            }
         }
+
     }
 
     bool ValidMovement()

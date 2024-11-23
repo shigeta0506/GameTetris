@@ -63,7 +63,7 @@ public class SpawnMino : MonoBehaviour
             }
             return;
         }
-        else if (isClear)
+        else if (isClear && MoveOnlyMino.isClear)
         {
             if (ClearText != null)
             {

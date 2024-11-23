@@ -240,7 +240,6 @@ public class Mino : MonoBehaviour
             }
         }
 
-        // "Only"タグを持つオブジェクトがあった場合、「a」を出力
         if (hasOnlyTag)
         {
             SpawnMino.isGameOver = true;

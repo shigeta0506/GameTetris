@@ -4,7 +4,7 @@ using UnityEngine.UI;  // Textを使用するために必要
 public class ScoreManager : MonoBehaviour
 {
     public Text scoreText;  // UI TextをInspectorで設定する
-    private int score = 0;
+    private int score = 500;
 
     void Start()
     {
@@ -14,15 +14,18 @@ public class ScoreManager : MonoBehaviour
     // 得点を加算するメソッド
     public void AddScore(int points)
     {
-        score += points;
+        score -= points;
         UpdateScoreUI();
     }
 
     // UIを更新するメソッド
     private void UpdateScoreUI()
     {
-        scoreText.text = "Score: " + score.ToString();
-        if(score >= 50)
+        if (score >= 0)
+        {
+            scoreText.text = "Score: " + score.ToString();
+        }
+        if(score == 0)
         {
             SpawnMino.isClear = true;
         }
