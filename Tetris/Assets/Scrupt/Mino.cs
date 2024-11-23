@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class Mino : MonoBehaviour
 {
-    private ScoreManager scoreManager; // ScoreManagerのインスタンス
+    private ScoreManager scoreManager;
     public float previousTime;
     public float fallTime = 1f;
 
@@ -12,7 +12,6 @@ public class Mino : MonoBehaviour
 
     public Vector3 rotationPoint;
 
-    // 共通のグリッド
     public static Transform[,] grid = MoveOnlyMino.grid;
 
     private Vector3 originalScale;
@@ -24,7 +23,7 @@ public class Mino : MonoBehaviour
     void Start()
     {
         originalScale = transform.localScale;
-        scoreManager = FindObjectOfType<ScoreManager>(); // ScoreManagerを取得
+        scoreManager = FindObjectOfType<ScoreManager>();
     }
 
     void Update()
@@ -34,6 +33,7 @@ public class Mino : MonoBehaviour
 
     private void MinoMovememt()
     {
+        //左移動
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             transform.position += new Vector3(-1, 0, 0);
@@ -43,6 +43,7 @@ public class Mino : MonoBehaviour
                 transform.position += new Vector3(1, 0, 0);
             }
         }
+        //右移動
         else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             transform.position += new Vector3(1, 0, 0);
@@ -52,6 +53,7 @@ public class Mino : MonoBehaviour
                 transform.position += new Vector3(-1, 0, 0);
             }
         }
+        //下移動、自動降下
         else if (Input.GetKeyDown(KeyCode.DownArrow) || Time.time - previousTime >= fallTime)
         {
             transform.position += new Vector3(0, -1, 0);
@@ -68,6 +70,7 @@ public class Mino : MonoBehaviour
 
             previousTime = Time.time;
         }
+        //瞬間降下
         else if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             //現在の位置から下に降下し続ける
@@ -76,14 +79,14 @@ public class Mino : MonoBehaviour
                 transform.position += new Vector3(0, -1, 0);
             }
 
-            //1つ下に移動した時点で衝突したので元の位置に戻す
-            transform.position += new Vector3(0, 1, 0); // 戻す
+            transform.position += new Vector3(0, 1, 0);
 
             AddToGrid();
             CheckLines();
             this.enabled = false;
             FindObjectOfType<SpawnMino>().NewMino();
         }
+        //右90°回転
         else if (Input.GetKeyDown(KeyCode.X))
         {
             transform.RotateAround(transform.TransformPoint(rotationPoint), new Vector3(0, 0, 1), -90);
@@ -93,6 +96,7 @@ public class Mino : MonoBehaviour
                 transform.RotateAround(transform.TransformPoint(rotationPoint), new Vector3(0, 0, 1), 90);
             }
         }
+        //左90°回転
         else if (Input.GetKeyDown(KeyCode.Z))
         {
             transform.RotateAround(transform.TransformPoint(rotationPoint), new Vector3(0, 0, 1), 90);
@@ -102,7 +106,8 @@ public class Mino : MonoBehaviour
                 transform.RotateAround(transform.TransformPoint(rotationPoint), new Vector3(0, 0, 1), -90);
             }
         }
-        else if (Input.GetKeyDown(KeyCode.C) && !HoldCount) //ホールド機能をトリガー
+        //ホールド機能
+        else if (Input.GetKeyDown(KeyCode.C) && !HoldCount)
         {
             HoldMino();
         }
@@ -116,32 +121,34 @@ public class Mino : MonoBehaviour
         if (spawnMino.holdMino == null)
         {
             //ホールド中のミノがない場合、現在のミノをホールド
-            spawnMino.holdMino = this.gameObject;
-            spawnMino.holdMino.SetActive(false); //ミノを非表示に
-            spawnMino.UpdateHoldMinoDisplay();   //ホールドエリアに表示
-            spawnMino.holdMino.SetActive(true);  //ミノを表示に
-            FindObjectOfType<SpawnMino>().NewMino(); //新しいミノを生成
+            HoldActive(spawnMino);
+            FindObjectOfType<SpawnMino>().NewMino();
         }
         else
         {
             //ホールド中のミノと現在のミノを入れ替える
             GameObject temp = spawnMino.holdMino;
-            spawnMino.holdMino = this.gameObject;
-            spawnMino.holdMino.SetActive(false); //ホールドするミノを非表示に
-            spawnMino.UpdateHoldMinoDisplay();   //ホールドエリアに表示
-            spawnMino.holdMino.SetActive(true);  //ミノを表示に
+            HoldActive(spawnMino);
 
-            temp.SetActive(true); //元のホールドミノを表示
-            temp.transform.position = spawnMino.transform.position; //位置をリセット
-            temp.transform.localScale = originalScale;              //元のスケールに戻す
-            temp.GetComponent<Mino>().enabled = true;               //ミノの操作を有効化
+            temp.SetActive(true);
+            temp.transform.position = spawnMino.transform.position;
+            temp.transform.localScale = originalScale;
+            temp.GetComponent<Mino>().enabled = true;
         }
 
         //現在のミノをホールドエリアに移動
         transform.localScale = originalScale;     //スケールをリセット
         transform.rotation = Quaternion.identity; //回転をリセット
-        this.enabled = false;     //現在のミノを無効化
+        this.enabled = false;
         HoldCount = true;
+    }
+
+    void HoldActive(SpawnMino spawnMino)
+    {
+        spawnMino.holdMino = this.gameObject;
+        spawnMino.holdMino.SetActive(false);
+        spawnMino.UpdateHoldMinoDisplay();
+        spawnMino.holdMino.SetActive(true);
     }
 
     void AddToGrid()
@@ -164,9 +171,6 @@ public class Mino : MonoBehaviour
 
     void GameOver()
     {
-        Debug.Log("Game Over");
-
-        //ゲームオーバーフラグを設定
         SpawnMino.isGameOver = true;
 
     }
@@ -199,7 +203,7 @@ public class Mino : MonoBehaviour
             {
                 DeleteLine(i);
                 RowDown(i);
-                AddScore(50); // ラインが消えたら50ポイント加算
+                AddScore(50);
             }
         }
     }
@@ -208,7 +212,7 @@ public class Mino : MonoBehaviour
     {
         if (scoreManager != null)
         {
-            scoreManager.AddScore(points); // ScoreManagerに得点を加算
+            scoreManager.AddScore(points);
         }
     }
 
@@ -228,13 +232,13 @@ public class Mino : MonoBehaviour
         {
             if (grid[j, i] != null)
             {
-                // タグが"Only"であればフラグを立てる
+                //タグが"Only"であればフラグを立てる
                 if (grid[j, i].CompareTag("Only"))
                 {
                     hasOnlyTag = true;
                 }
 
-                // ゲームオブジェクトを削除
+                //ゲームオブジェクトを削除
                 Destroy(grid[j, i].gameObject);
                 grid[j, i] = null;
             }

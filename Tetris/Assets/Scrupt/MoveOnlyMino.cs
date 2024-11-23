@@ -10,10 +10,7 @@ public class MoveOnlyMino : MonoBehaviour
     private static int width = 10;
     private static int height = 20;
 
-    // Mino回転
-    public Vector3 rotationPoint;
-
-    public static Transform[,] grid = new Transform[width, height];  // 共有のグリッド
+    public static Transform[,] grid = new Transform[width, height];
 
     private int keep = 0;
 
@@ -37,26 +34,23 @@ public class MoveOnlyMino : MonoBehaviour
 
     void Update()
     {
-        // ゲームオーバーでない場合のみ動かす
         if (!SpawnMino.isGameOver&&!SpawnMino.isClear || !isClear)
         {
             MinoMovememt();
-            //CheckGameOver();  // ゲームオーバー状態をチェック
         }
         AddToGrid();
     }
 
     private void MinoMovememt()
     {
-        // 新しい位置を grid に追加
-       
+        //新しい位置をgridに追加
         if (Time.time - previousTime >= fallTime)
         {
-            // 現在位置を grid から削除
+            //現在位置をgridから削除
             RemoveFromGrid();
 
 
-            // 左に動く場合
+            //左に動く場合
             if (direction == Direction.left)
             {
                 transform.position += new Vector3(-1, 0, 0);
@@ -68,7 +62,7 @@ public class MoveOnlyMino : MonoBehaviour
                 previousTime = Time.time;
             }
 
-            // 右に動く場合
+            //右に動く場合
             else if (direction == Direction.right)
             {
                 transform.position += new Vector3(1, 0, 0);
@@ -80,7 +74,7 @@ public class MoveOnlyMino : MonoBehaviour
                 previousTime = Time.time;
             }
 
-            // 上に動く場合
+            //上に動く場合
             else if (direction == Direction.up)
             {
                 transform.position += new Vector3(0, 1, 0);
@@ -90,16 +84,11 @@ public class MoveOnlyMino : MonoBehaviour
                     transform.position += new Vector3(0, 1, 0);
                 }
                 previousTime = Time.time;
-                if (keep == 0)
-                {
-                    direction = Direction.left;
-                }
-                else if (keep == 1)
-                {
-                    direction = Direction.right;
-                }
+
+                keepdirection();
+
             }
-            // 下に動く場合
+            //下に動く場合
             else if (direction == Direction.down)
             {
                 transform.position += new Vector3(0, -1, 0);
@@ -108,21 +97,14 @@ public class MoveOnlyMino : MonoBehaviour
                     transform.position += new Vector3(0, -1, 0);
                 }
                 previousTime = Time.time;
-                if (keep == 0)
-                {
-                    direction = Direction.left;
-                }
-                else if (keep == 1)
-                {
-                    direction = Direction.right;
-                }
+
+                keepdirection();
+
             }
         }
     }
 
-    // ミノが特定の位置に到達したか確認
-
-    // 過去の位置を grid から削除
+    //過去の位置を grid から削除
     void RemoveFromGrid()
     {
         foreach (Transform child in transform)
@@ -137,7 +119,7 @@ public class MoveOnlyMino : MonoBehaviour
         }
     }
 
-    // グリッドへの追加
+    //グリッドへの追加
     void AddToGrid()
     {
         foreach (Transform children in transform)
@@ -165,14 +147,14 @@ public class MoveOnlyMino : MonoBehaviour
             int roundX = Mathf.RoundToInt(children.transform.position.x);
             int roundY = Mathf.RoundToInt(children.transform.position.y);
 
-            // ステージの範囲外に出た場合
+            //ステージの範囲外に出た場合
             if (roundX < 0 || roundX >= width || roundY < 0 || roundY >= height)
             {
                 changedirection();
                 return false;
             }
 
-            // 進行方向を記録
+            //進行方向を記録
             if (direction == Direction.left)
             {
                 keep = 0;
@@ -182,8 +164,7 @@ public class MoveOnlyMino : MonoBehaviour
                 keep = 1;
             }
 
-            // **範囲外アクセス防止**: 配列参照前にチェック
-            // 下方向が空いている場合
+            //下方向が空いている場合
             if (roundY > 0 && grid[roundX, roundY - 1] == null && grid[roundX, roundY] == null)
             {
                 if (roundY >= 2 && grid[roundX, roundY - 2] == null)
@@ -196,7 +177,7 @@ public class MoveOnlyMino : MonoBehaviour
                     direction = Direction.down;
                 }
             }
-            // 進行先に Mino があり、かつ上方向が空いている場合
+            //進行先にMinoがあり、かつ上方向が空いている場合
             else if (roundY + 1 < height && roundX >= 0 && roundX < width && grid[roundX, roundY] != null && grid[roundX, roundY + 1] == null)
             {
                 if (direction == Direction.left && grid[roundX + 1, roundY + 1] == null)
@@ -209,7 +190,7 @@ public class MoveOnlyMino : MonoBehaviour
                 }
                 return false;
             }
-            // 進行先に Mino があり、上方向も塞がれている場合
+            //進行先にMinoがあり、上方向も塞がれている場合
             else if (grid[roundX, roundY] != null)
             {
                 changedirection();
@@ -220,6 +201,18 @@ public class MoveOnlyMino : MonoBehaviour
         return true;
     }
 
+
+    void keepdirection()
+    {
+        if (keep == 0)
+        {
+            direction = Direction.left;
+        }
+        else if (keep == 1)
+        {
+            direction = Direction.right;
+        }
+    }
 
     void changedirection()
     {

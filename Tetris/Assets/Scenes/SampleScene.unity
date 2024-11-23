@@ -673,7 +673,6 @@ GameObject:
   - component: {fileID: 796798841}
   - component: {fileID: 796798840}
   - component: {fileID: 796798839}
-  - component: {fileID: 796798838}
   m_Layer: 5
   m_Name: End
   m_TagString: Untagged
@@ -702,18 +701,6 @@ RectTransform:
   m_AnchoredPosition: {x: 100, y: 10}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &796798838
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 796798836}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4232a76fb72ef0e4383263e453d2af59, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &796798839
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -757,19 +744,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 796798840}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 11500000, guid: 4232a76fb72ef0e4383263e453d2af59, type: 3}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &796798840
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1062,7 +1037,6 @@ GameObject:
   - component: {fileID: 1584975471}
   - component: {fileID: 1584975470}
   - component: {fileID: 1584975469}
-  - component: {fileID: 1584975468}
   m_Layer: 5
   m_Name: Retry
   m_TagString: Untagged
@@ -1091,18 +1065,6 @@ RectTransform:
   m_AnchoredPosition: {x: -100, y: 10}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1584975468
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1584975466}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe0545bf57fe2b14f904f1f744c5117a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1584975469
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1146,19 +1108,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1584975470}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1584975470
 MonoBehaviour:
   m_ObjectHideFlags: 0
